@@ -1,0 +1,7 @@
+*.obj
+*.dll
+*.bmp
+Debug/*
+.vs/*
+AGP_Individual/Debug/*
+AG
