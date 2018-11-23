@@ -1,7 +1,3 @@
-//Shader.h put together with help from:
-//https://learnopengl.com/Getting-started/Shaders - Learn OpenGL
-//https://www.youtube.com/watch?v=aA112viAx7c - Sonar Systems
-#pragma once
 #ifndef SHADER_H
 #define SHADER_H
 
