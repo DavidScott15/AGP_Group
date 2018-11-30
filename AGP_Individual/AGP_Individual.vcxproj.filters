@@ -64,5 +64,14 @@
     <None Include="res\models\nanosuit.mtl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\models\cube.mtl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="modelShader.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="modelShader.vs">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -22,7 +22,8 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{2C2CF17A-0DB7-45F1-83F0-2A90537EC992}</ProjectGuid>
     <RootNamespace>AGP_Individual</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.10240.0</WindowsTargetPlatformVersion>
+    <ProjectName>AGP_Individual_</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -80,6 +81,7 @@
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)/External Libraries/assimp/lib;$(SolutionDir)/External Libraries/SOIL2/lib;C:\Dev\GLFW\glfw-win32\lib-vc2015;C:\Dev\glew-2.1.0\lib\Debug\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glew32d.lib;assimp-vc140-mt.lib;glfw3.lib;soil2-debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -128,8 +130,11 @@
   <ItemGroup>
     <None Include="cubeLight.frag" />
     <None Include="cubeLight.vs" />
+    <None Include="modelShader.frag" />
+    <None Include="modelShader.vs" />
     <None Include="multiLight.frag" />
     <None Include="multiLight.vs" />
+    <None Include="res\models\cube.mtl" />
     <None Include="res\models\nanosuit.mtl" />
     <None Include="res\shaders\modelLoading.frag" />
     <None Include="res\shaders\modelLoading.vs" />
