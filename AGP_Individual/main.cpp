@@ -1,14 +1,13 @@
-// Std. Includes
+/*
+Advanced Graphics Programming - Group Project
+Created by Gareth Dunbar & David Scott Walbancke
+B00324366 & B00282889
+*/
+
 #include <string>
-
-// GLEW
-
 #include <GL/glew.h>
-
-// GLFW
 #include <GLFW/glfw3.h>
 
-// GL includes
 #include "shader.h"
 #include "camera.h"
 #include "model.h"
@@ -22,9 +21,8 @@
 // Other Libs
 #include "SOIL2/SOIL2/SOIL2.h"
 
-// Properties
-const GLuint WIDTH = 800, HEIGHT = 600;
-int SCREEN_WIDTH, SCREEN_HEIGHT;
+const GLuint width = 800, height = 600;
+int screenWidth, screenHeight;
 
 // Function prototypes
 void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode);
@@ -77,7 +75,6 @@ int main()
 {
 	// Init GLFW
 	glfwInit();
-	// Set all the required options for GLFW
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -85,7 +82,7 @@ int main()
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 	// Create a GLFWwindow object that we can use for GLFW's functions
-	GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, "LearnOpenGL", nullptr, nullptr);
+	GLFWwindow *window = glfwCreateWindow(width, height, "AGP Group Project", nullptr, nullptr);
 
 	if (nullptr == window)
 	{
@@ -96,18 +93,12 @@ int main()
 	}
 
 	glfwMakeContextCurrent(window);
-
-	glfwGetFramebufferSize(window, &SCREEN_WIDTH, &SCREEN_HEIGHT);
-
-	// Set the required callback functions
+	glfwGetFramebufferSize(window, &screenWidth, &screenHeight);
 	glfwSetKeyCallback(window, KeyCallback);
 	glfwSetCursorPosCallback(window, MouseCallback);
-
-	// GLFW Options
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-	// Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
 	glewExperimental = GL_TRUE;
+	
 	// Initialize GLEW to setup the OpenGL Function pointers
 	if (GLEW_OK != glewInit())
 	{
@@ -116,15 +107,15 @@ int main()
 	}
 
 	// Define the viewport dimensions
-	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	glViewport(0, 0, screenWidth, screenHeight);
 
 	// OpenGL options
 	glEnable(GL_DEPTH_TEST);
 
 	// Setup and compile our shaders
-	Shader skyboxShader("skybox.vs", "skybox.frag");
-	Shader modelShader("modelShader.vs", "modelShader.frag");
-	Shader greyscaleFilter("greyscale-fbo.vert", "greyscale-fbo.frag");
+	Shader skyboxShader("res/shaders/skybox.vs", "res/shaders/skybox.frag");
+	Shader modelShader("res/shaders/modelShader.vs", "res/shaders/modelShader.frag");
+	Shader greyscaleFilter("res/shaders/greyscale-fbo.vert", "res/shaders/greyscale-fbo.frag");
 	Shader shader("res/shaders/modelLoading.vs", "res/shaders/modelLoading.frag");
 
 	GLfloat skyboxVertices[] = {
@@ -171,7 +162,8 @@ int main()
 		-1.0f, -1.0f,  1.0f,
 		1.0f, -1.0f,  1.0f
 	};
-
+	
+	//Position of the Point Light
 	glm::vec3 pointLightPos[] = {
 		glm::vec3(0.0f, 0.0f, 2.0f),
 	};
@@ -199,14 +191,14 @@ int main()
 	glEnableVertexAttribArray(0);
 	glBindVertexArray(0);
 
-	// fbo
+	//fbo
 	unsigned int fbo;
 	glGenFramebuffers(1, &fbo); //Creates the framebuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);//binds the fbo as the active framebuffer
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) //checks the status of the framebuffer to see if we have completed the requirments.
 		std::cout << "framebuffer not complete" << std::endl;
 
-	// creates the texture for the framebuffer
+	//creates the texture for the framebuffer
 	unsigned int textureColorbuffer;
 	glGenTextures(1, &textureColorbuffer);
 	glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
@@ -214,10 +206,10 @@ int main()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	//// attaches the texture to the framebuffer
+	//attaches the texture to the framebuffer
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorbuffer, 0);
 
-	// quad for second pass texture
+	//quad for second pass texture
 
 	GLuint quadVAO = initQuadVAO();
 
@@ -231,19 +223,14 @@ int main()
 	faces.push_back("skybox/ft.tga");
 	GLuint cubemapTexture = TextureLoading::LoadCubemap(faces);
 
-	
-
 	// Load models
 	Model ourModel("res/models/nanosuit.obj", false);
 
 	//Loads ground plain
 	Model ourGroundPlain("res/models/cube.obj", true);
 
-	// Draw in wireframe
-	//glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-
 	modelShader.Use();
-	glm::mat4 projection = glm::perspective(camera.GetZoom(), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
+	glm::mat4 projection = glm::perspective(camera.GetZoom(), (float)screenWidth / (float)screenHeight, 0.1f, 100.0f);
 
 	int counter(0);
 	// Game loop
@@ -273,8 +260,6 @@ int main()
 			glUniformMatrix4fv(glGetUniformLocation(shader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 			glUniformMatrix4fv(glGetUniformLocation(shader.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
 
-
-
 			// Draw skybox as last
 			glDepthFunc(GL_LEQUAL);  // Change depth function so depth test passes when values are equal to depth buffer's content
 			skyboxShader.Use();
@@ -290,9 +275,6 @@ int main()
 			glBindVertexArray(0);
 			glDepthFunc(GL_LESS); // Set depth function back to default
 
-
-
-
 			modelShader.Use();
 			// Draw the loaded model
 			glm::mat4 model;
@@ -301,23 +283,14 @@ int main()
 			glUniformMatrix4fv(glGetUniformLocation(modelShader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 			glUniformMatrix4fv(glGetUniformLocation(modelShader.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
 			glUniformMatrix4fv(glGetUniformLocation(modelShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-			//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			ourModel.Draw(modelShader);
-			//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 			// Draw the loaded ground plain
 			glm::mat4 groundPlain;
 			groundPlain = glm::translate(groundPlain, glm::vec3(0.0f, -1.75f, -1.0f)); // Translate it down a bit so it's at the center of the scene
-			groundPlain = glm::scale(groundPlain, glm::vec3(0.2f, 0.2f, 0.2f));	// It's a bit too big for our scene, so scale it down
+			groundPlain = glm::scale(groundPlain, glm::vec3(1.0f, 1.0f, 1.0f));	// It's a bit too big for our scene, so scale it down
 			glUniformMatrix4fv(glGetUniformLocation(modelShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(groundPlain));
 			ourGroundPlain.Draw(modelShader);
-
-
-
-
-
-
-
 
 			GLint viewPosLoc = glGetUniformLocation(modelShader.Program, "viewPos");
 			glUniform3f(viewPosLoc, camera.GetPosition().x, camera.GetPosition().y, camera.GetPosition().z);
@@ -362,17 +335,12 @@ int main()
 			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 			glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
-
-
-			
-
 			counter++;
 
 		}
 		else
 		{
 			// second pass
-
 			glBindFramebuffer(GL_FRAMEBUFFER, 0); // back to default
 			glDisable(GL_DEPTH_TEST);
 			glClearColor(1.0f, 1.0f, 1.0f, 1.0f);

@@ -37,24 +37,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="multiLight.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="multiLight.vs">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="cubeLight.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="cubeLight.vs">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="skybox.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="skybox.vs">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\shaders\modelLoading.frag">
       <Filter>Resource Files</Filter>
     </None>
@@ -71,6 +53,18 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="modelShader.vs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="multiLight.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="multiLight.vs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="skybox.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="skybox.vs">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

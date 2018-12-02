@@ -117,7 +117,18 @@ private:
 			vector.y = mesh->mNormals[i].y;
 			vector.z = mesh->mNormals[i].z;
 			vertex.Normal = vector;
+			
+			/*
+			// Tangents 
+			vector.x = mesh->mTangents[i].x;
+			vector.y = mesh->mTangents[i].y;
+			vector.z = mesh->mTangents[i].z;
 
+			// Bitangents
+			vector.x = mesh->mBitangents[i].x;
+			vector.y = mesh->mBitangents[i].y;
+			vector.z = mesh->mBitangents[i].z;
+			*/
 
 
 			// Texture Coordinates
@@ -167,6 +178,10 @@ private:
 			// 2. Specular maps
 			vector<Texture> specularMaps = this->loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 			textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+
+			// 3. Normal maps
+			//vector<Texture> normalMaps = this->loadMaterialTextures(material, aiTextureType_NORMALS, "texture_normal");
+			//textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 		}
 
 		// Return a mesh object created from the extracted mesh data
